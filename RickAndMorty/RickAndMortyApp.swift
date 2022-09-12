@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct RickAndMortyApp: App {
-    let charactersViewModel = CharactersViewModel(service: CharactersProviding())
+    let charactersViewModel = CharactersViewModel(service: RickAndMortyFetcher())
     
     var body: some Scene {
         WindowGroup {

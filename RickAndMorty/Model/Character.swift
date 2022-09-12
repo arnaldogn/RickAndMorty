@@ -39,7 +39,7 @@ struct Character: Decodable  {
         """
 }
 
-extension Character: Hashable {
+extension Character: Hashable, Identifiable {
     static func == (lhs: Character, rhs: Character) -> Bool {
         return lhs.id == rhs.id
     }

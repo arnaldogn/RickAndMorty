@@ -15,13 +15,14 @@
 		C509A64128B6587400D22C20 /* RickAndMortyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509A64028B6587400D22C20 /* RickAndMortyUITests.swift */; };
 		C509A64328B6587400D22C20 /* RickAndMortyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509A64228B6587400D22C20 /* RickAndMortyUITestsLaunchTests.swift */; };
 		C509A65028B65F9B00D22C20 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509A64F28B65F9B00D22C20 /* Character.swift */; };
-		C509A65228B6692B00D22C20 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509A65128B6692B00D22C20 /* DataService.swift */; };
 		C509A65428B77CF100D22C20 /* CharactersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509A65328B77CF100D22C20 /* CharactersViewModel.swift */; };
 		C5A5B31C28BCA50F002997C2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C5A5B31B28BCA50F002997C2 /* Kingfisher */; };
 		C5A5B31E28BCCD9E002997C2 /* CharactersDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5B31D28BCCD9E002997C2 /* CharactersDetailView.swift */; };
 		C5A5B32028BCE249002997C2 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5B31F28BCE249002997C2 /* CharacterView.swift */; };
 		C5A5B32628BCF7F2002997C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5B32528BCF7F2002997C2 /* Constants.swift */; };
 		C5C4007F28BCFF680011EBD0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5C4007E28BCFF680011EBD0 /* Launch Screen.storyboard */; };
+		C5E84D9728CA3328004FE4F7 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E84D9628CA3328004FE4F7 /* DataService.swift */; };
+		C5E84D9A28CB5BD7004FE4F7 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = C5E84D9928CB5BD7004FE4F7 /* CachedAsyncImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,12 +54,12 @@
 		C509A64028B6587400D22C20 /* RickAndMortyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickAndMortyUITests.swift; sourceTree = "<group>"; };
 		C509A64228B6587400D22C20 /* RickAndMortyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickAndMortyUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C509A64F28B65F9B00D22C20 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
-		C509A65128B6692B00D22C20 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		C509A65328B77CF100D22C20 /* CharactersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewModel.swift; sourceTree = "<group>"; };
 		C5A5B31D28BCCD9E002997C2 /* CharactersDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersDetailView.swift; sourceTree = "<group>"; };
 		C5A5B31F28BCE249002997C2 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
 		C5A5B32528BCF7F2002997C2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C5C4007E28BCFF680011EBD0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		C5E84D9628CA3328004FE4F7 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5A5B31C28BCA50F002997C2 /* Kingfisher in Frameworks */,
+				C5E84D9A28CB5BD7004FE4F7 /* CachedAsyncImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +178,7 @@
 		C5A5B32428BCF066002997C2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				C509A65128B6692B00D22C20 /* DataService.swift */,
+				C5E84D9628CA3328004FE4F7 /* DataService.swift */,
 				C5A5B32528BCF7F2002997C2 /* Constants.swift */,
 			);
 			path = Utils;
@@ -200,6 +202,7 @@
 			name = RickAndMorty;
 			packageProductDependencies = (
 				C5A5B31B28BCA50F002997C2 /* Kingfisher */,
+				C5E84D9928CB5BD7004FE4F7 /* CachedAsyncImage */,
 			);
 			productName = RickAndMorty;
 			productReference = C509A62228B6586F00D22C20 /* RickAndMorty.app */;
@@ -275,6 +278,7 @@
 			mainGroup = C509A61928B6586F00D22C20;
 			packageReferences = (
 				C5A5B31A28BCA50F002997C2 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				C5E84D9828CB5BD7004FE4F7 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 			);
 			productRefGroup = C509A62328B6586F00D22C20 /* Products */;
 			projectDirPath = "";
@@ -323,9 +327,9 @@
 				C509A65028B65F9B00D22C20 /* Character.swift in Sources */,
 				C509A62628B6586F00D22C20 /* RickAndMortyApp.swift in Sources */,
 				C5A5B31E28BCCD9E002997C2 /* CharactersDetailView.swift in Sources */,
-				C509A65228B6692B00D22C20 /* DataService.swift in Sources */,
 				C509A65428B77CF100D22C20 /* CharactersViewModel.swift in Sources */,
 				C5A5B32028BCE249002997C2 /* CharacterView.swift in Sources */,
+				C5E84D9728CA3328004FE4F7 /* DataService.swift in Sources */,
 				C5A5B32628BCF7F2002997C2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,7 +497,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -523,7 +527,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -541,6 +545,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -560,6 +565,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -659,6 +665,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		C5E84D9828CB5BD7004FE4F7 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -666,6 +680,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C5A5B31A28BCA50F002997C2 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		C5E84D9928CB5BD7004FE4F7 /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C5E84D9828CB5BD7004FE4F7 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

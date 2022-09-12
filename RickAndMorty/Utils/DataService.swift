@@ -2,82 +2,78 @@
 //  DataService.swift
 //  RickAndMorty
 //
-//  Created by Arnaldo Gnesutta on 24/8/22.
+//  Created by Allen Gilliam on 8/9/22.
 //
 
 import Foundation
+import Combine
 
-protocol EndpointProtocol {
-    var path: String { get }
-    var queryItems: [URLQueryItem] { get }
-    var url: URL { get throws }
-    var baseURL: String { get }
+
+protocol RickAndMortyFetchable {
+    func characters(withPage: Int) -> AnyPublisher<CharactersList, CustomError>
 }
 
-extension EndpointProtocol {
-    var url: URL  {
-        get throws {
-            var components = URLComponents(string: baseURL)
-            components?.path = path
-            components?.queryItems = queryItems
-            guard let url = components?.url
-            else { throw CustomError.wrongURL }
-            return url
-        }
-    }
-}
-
-protocol NetworkingProtocol {
-    func fetch<T: Decodable>(_ endpoint: EndpointProtocol) async throws -> T
-}
-
-extension NetworkingProtocol {
-    func fetch<T: Decodable>(_ endpoint: EndpointProtocol) async throws -> T {
-        let url = try endpoint.url
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(Constants.dateFormat)
-            return try decoder.decode(T.self, from: data)
-        }
-        catch {
-            throw CustomError.noData
-        }
-    }
-}
-
-enum RickAndMortyEndpoint: EndpointProtocol {
-    var baseURL: String { Constants.baseURL }
-    case character(page: Int)
-}
-
-extension RickAndMortyEndpoint {
-    var path: String {
-        switch self {
-        case .character:
-            return "/api/character"
-        }
+class RickAndMortyFetcher {
+    struct API {
+        static let scheme = "https"
+        static let host = "rickandmortyapi.com"
+        static let path = "/api/"
     }
     
-    var queryItems: [URLQueryItem] {
-        switch self {
-        case .character(let page):
-            return [URLQueryItem(name: "page", value: String(page))]
+    private let session: URLSession
+    
+    private let components: URLComponents = {
+        var components = URLComponents()
+        components.scheme = API.scheme
+        components.host = API.host
+        components.path = API.path
+        return components
+    }()
+    
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
+}
+
+extension RickAndMortyFetcher: RickAndMortyFetchable {
+    func characters(withPage: Int) -> AnyPublisher<CharactersList, CustomError> {
+        fetch(with: makeCharactersComponents(withPage: withPage))
+    }
+    
+    private func fetch<T: Decodable>(with components: URLComponents) -> AnyPublisher<T, CustomError> {
+        guard let url = components.url else {
+            let error = CustomError.wrongURL
+            return Fail(error: error).eraseToAnyPublisher()
         }
+        return session.dataTaskPublisher(for: URLRequest(url: url))
+            .mapError { _ in CustomError.noData }
+            .flatMap(maxPublishers: .max(1)) { pair in
+                decode(pair.data)
+            }
+            .eraseToAnyPublisher()
     }
 }
 
-protocol CharactersProvidingProtocol {
-    var network: NetworkingProtocol { get }
-    func fetch(page: Int) async throws -> CharactersList
-}
-
-extension CharactersProvidingProtocol {
-    var network: NetworkingProtocol { Network() }
-    func fetch(page: Int) async throws -> CharactersList {
-        try await network.fetch(RickAndMortyEndpoint.character(page: page))
+private extension RickAndMortyFetcher {
+    func makeCharactersComponents(withPage page: Int) -> URLComponents {
+        var temp = self.components
+        temp.path += "character"
+        temp.queryItems = [
+            URLQueryItem(name: "page", value: String(page))
+        ]
+        
+        return temp
     }
 }
 
-class Network: NetworkingProtocol {}
-class CharactersProviding: CharactersProvidingProtocol {}
+func decode<T: Decodable>(_ data: Data) -> AnyPublisher<T, CustomError> {
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .formatted(Constants.dateFormat)
+    
+    return Just(data)
+        .decode(type: T.self, decoder: decoder)
+        .mapError { error in
+            print(String(describing: error))
+            return CustomError.decoding }
+        .eraseToAnyPublisher()
+}

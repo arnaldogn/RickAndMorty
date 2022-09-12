@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import CachedAsyncImage
 
 struct CharacterView: View {
     let character: Character
@@ -16,6 +17,7 @@ struct CharacterView: View {
             ZStack(alignment: .bottomTrailing) {
                 KFImage(URL(string: character.image))
                     .resizable()
+                    .aspectRatio(contentMode: .fit)
                 
                 VStack(alignment: .center, spacing: 5) {
                     Text(character.name)

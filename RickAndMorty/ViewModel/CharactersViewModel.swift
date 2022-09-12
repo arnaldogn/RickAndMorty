@@ -6,26 +6,44 @@
 //
 
 import Foundation
+import Combine
 
 class CharactersViewModel: ObservableObject {
     @Published var results: [Character] = []
     private var data: CharactersList?
-    private let service: CharactersProviding
+    private let service: RickAndMortyFetchable
     private var totalPages: Int { data?.info?.pages ?? 0 }
     private var currentPage = 1
+    private var disposables = Set<AnyCancellable>()
+    @Published var isFetching = false
     
     var hasMoreResults: Bool { totalPages - currentPage >= 0 }
     
-    init(service: CharactersProviding) {
+    init(service: RickAndMortyFetchable) {
         self.service = service
     }
     
-    @MainActor
     func fetchCharacters() {
-        Task.init {
-            data = try? await service.fetch(page: currentPage)
-            results.append(contentsOf: data?.results ?? [])
-            currentPage += 1
-        }
+        isFetching = true
+        service.characters(withPage: currentPage)
+            .receive(on: DispatchQueue.main)
+            .sink(
+                receiveCompletion: { [weak self] value in
+                    guard let self = self else { return }
+                    self.isFetching = false
+                    switch value {
+                    case .failure:
+                        self.results = []
+                    case .finished:
+                        break
+                    }
+                },
+                receiveValue: { [weak self] forecast in
+                    guard let self = self else { return }
+                    self.data = forecast
+                    self.results.append(contentsOf: forecast.results)
+                    self.currentPage += 1
+                })
+            .store(in: &disposables)
     }
 }

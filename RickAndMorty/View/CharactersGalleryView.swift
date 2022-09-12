@@ -13,48 +13,56 @@ struct CharactersGalleryView: View {
     @State private var searchText = ""
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                LazyVStack(spacing: 1) {
-                    ForEach(viewModel.results, id: \.self) { character in
-                        NavigationLink(destination: CharactersDetailView(character: character)) {
-                            ZStack(alignment: .topTrailing) {
-                                CharacterView(character: character)
-                                    .aspectRatio(contentMode: .fill)
-                                Image(systemName: "ellipsis.circle")
-                                    .foregroundColor(.gray)
-                                    .padding(.trailing, 10)
-                                    .padding(.top, 10)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    if viewModel.hasMoreResults {
-                        loadingMoreView
-                            .onAppear {
+        NavigationStack {
+            List(viewModel.results) { character in
+                if character == viewModel.results.last {
+                    CharacterRow(character: character)
+                        .onAppear {
+                            if viewModel.hasMoreResults,
+                               !viewModel.isFetching {
                                 viewModel.fetchCharacters()
                             }
-                    }
+                        }
+                } else {
+                    CharacterRow(character: character)
                 }
             }
+            .overlay {
+                if viewModel.isFetching {
+                    ProgressView("Fetching data, please wait...")
+                        .progressViewStyle(CircularProgressViewStyle(tint: .accentColor))
+                }
+            }
+            .task {
+                viewModel.fetchCharacters()
+            }
             .navigationTitle("Rick and Morty")
-        }
-        .onAppear {
-            viewModel.fetchCharacters()
+            .navigationDestination(for: Character.self) {
+                CharactersDetailView(character: $0)
+            }
         }
     }
-        
-    var loadingMoreView: some View {
-        HStack {
-            Spacer()
-            ProgressView()
-            Spacer()
+}
+
+struct CharacterRow: View {
+    let character: Character
+    var body: some View {
+        NavigationLink(value: character) {
+            ZStack(alignment: .topTrailing) {
+                CharacterView(character: character)
+                    .aspectRatio(contentMode: .fill)
+                Image(systemName: "ellipsis.circle")
+                    .foregroundColor(.gray)
+                    .padding(.trailing, 10)
+                    .padding(.top, 10)
+            }
+            .buttonStyle(.plain)
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CharactersGalleryView(viewModel: CharactersViewModel(service: CharactersProviding()))
+        CharactersGalleryView(viewModel: CharactersViewModel(service: RickAndMortyFetcher()))
     }
 }
