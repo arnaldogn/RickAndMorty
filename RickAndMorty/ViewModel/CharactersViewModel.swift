@@ -10,20 +10,20 @@ import Combine
 
 class CharactersViewModel: ObservableObject {
     @Published var results: [Character] = []
+    @Published var isFetching = false
     private var data: CharactersList?
     private let service: RickAndMortyFetchable
     private var totalPages: Int { data?.info?.pages ?? 0 }
     private var currentPage = 1
     private var disposables = Set<AnyCancellable>()
-    @Published var isFetching = false
-    
-    var hasMoreResults: Bool { totalPages - currentPage >= 0 }
+    private var hasMoreResults: Bool { totalPages - currentPage >= 0 }
+    var hasMore: Bool { !isFetching && hasMoreResults  }
     
     init(service: RickAndMortyFetchable) {
         self.service = service
     }
     
-    func fetchCharacters() {
+    func fetchMore() {
         isFetching = true
         service.characters(withPage: currentPage)
             .receive(on: DispatchQueue.main)
